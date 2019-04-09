@@ -26,12 +26,16 @@ export class HomePage {
 
   constructor(private insomnia: Insomnia) {}
 
-  startTime() 
+  updateTime()
   {
-    let totalSeconds = Math.floor(this.minutes * 60) + this.seconds;
     let timeSplit = this.fullTime.split(":");
     this.minutes = parseInt(timeSplit[1]);
     this.seconds = parseInt(timeSplit[2]);
+  }
+
+  startTime() 
+  {
+    let totalSeconds = Math.floor(this.minutes * 60) + this.seconds;
 
     if (this.timer) {
       clearInterval(this.timer);
@@ -67,7 +71,13 @@ export class HomePage {
 
     this.overAllTimer = setInterval( () => 
     {
-      distance = this.calculateDistance(countDownDate);
+      if (this.percent == 100) {
+        clearInterval(this.overAllTimer);
+
+        return;
+      }
+
+      distance = new Date().getTime() - countDownDate.getTime();
 
       this.elapsed.h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       this.elapsed.m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
@@ -83,11 +93,6 @@ export class HomePage {
   {
     this.progress += 1;
     this.percent = Math.floor((this.progress / totalSeconds) * 100);
-  }
-
-  calculateDistance(countDownDate)
-  {
-    return new Date().getTime() - countDownDate.getTime();
   }
 
   pad(number, size) 

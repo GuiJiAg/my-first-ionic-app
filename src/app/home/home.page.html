@@ -2,7 +2,7 @@
 
   <ion-item color="dark">
     <ion-label>Select the Rest Duration</ion-label>
-    <ion-datetime display-format="mm:ss" [(ngModel)]="fullTime"></ion-datetime>
+    <ion-datetime display-format="mm:ss" [(ngModel)]="fullTime" (ionChange)="updateTime()"></ion-datetime>
   </ion-item>
 
   <ng-container *ngIf="timer == false; else starting">
